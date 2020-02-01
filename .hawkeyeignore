@@ -1,0 +1,6 @@
+# Ignore security examples - comment out to trigger hawkeye fail
+examples/aws_stuff.txt
+examples/id_github3_rsa
+examples/cc.txt
+
+
