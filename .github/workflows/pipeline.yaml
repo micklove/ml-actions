@@ -3,7 +3,7 @@ name: Node.js CI
 on: [push]
 
 jobs:
-  build:
+  prep:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
