@@ -8,24 +8,24 @@ jobs:
     steps:
       - name: Setup
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
 
       - name: Install
+        run: npm install
+
+      - name: Clean
+        run: make clean
+
+      - name: Quality
         env:
           ENV_VAR_1: env_val_1
           ENV_VAR_2: env_val_2
-      - run: npm install
-      - run: make clean
-
-      - name: Quality
-      - run: make prepare
-      - run: make lint
-      - run: make security-scan
+        run: make code-quality
 
       - name: Test
-      - run: make unit-test
-      - run: make integration-test
+        run: make test
 
 
