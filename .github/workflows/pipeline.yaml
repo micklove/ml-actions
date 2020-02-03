@@ -3,14 +3,29 @@ name: Node.js CI
 on: [push]
 
 jobs:
-  prep:
+  ci:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: '12.x'
+
+      - name: Install
+        env:
+          ENV_VAR_1: env_val_1
+          ENV_VAR_2: env_val_2
       - run: npm install
       - run: make clean
+
+      - name: Quality
       - run: make prepare
+      - run: make lint
+      - run: make security-scan
+
+      - name: Test
+      - run: make unit-test
+      - run: make integration-test
+
 
