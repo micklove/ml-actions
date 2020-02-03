@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/micklove/ml-actions#readme",
   "devDependencies": {
-    "@hawkeyesec/scanner-cli": "^1.7.1"
+    "@hawkeyesec/scanner-cli": "^1.7.1",
+    "@types/jest": "^25.1.1",
+    "@types/node": "^13.7.0",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5"
   }
 }

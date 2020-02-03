@@ -5,15 +5,15 @@
 DOCKER_IMAGE:=atlassian/default-image:2
 DOCKER_WORKDIR:=/mypipe
 
-ci: clean code-quality build test
+ci: code-quality build test
 cd: ci deploy-all infra-test acceptance-test ui-test
 
 
 clean: ## Remove any redundant local files
 	@echo $@
+	-rm -rf ./node_modules
 
 reinstall: clean ## Reinstall any required packages
-	-rm -rf ./node_modules
 	@npm install
 
 prepare: ## Prepare code, config for ci step
@@ -30,10 +30,10 @@ build: ## Execute the code process
 
 # =====================   TEST   =====================================
 
-unit-test: build code-quality ## Build, then execute unit tests
+unit-test:  ## Build, then execute unit tests
 	@echo $@
 
-integration-test: build code-quality ## Execute any integration tests
+integration-test:  ## Execute any integration tests
 	@echo $@
 
 infra-test: ## Test any related infra - e.g. server spec
@@ -45,7 +45,7 @@ acceptance-test: ## Test any acceptance tests
 ui-test: ## Test any ui tests
 	@echo $@
 
-test: unit-test integration-test ## Execute all tests
+test: build unit-test integration-test ## Execute all tests
 	@echo $@
 
 # ==================================================================
