@@ -5,6 +5,9 @@ on: [push]
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      JOB_SCOPED_ENV_VAR_1: job_scoped_env_val_1
+      JOB_SCOPED_ENV_VAR_2: job_scoped_env_val_2
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -15,15 +18,19 @@ jobs:
           node-version: '12.x'
 
       - name: Install
-        run: npm install
+        run: make reinstall
 
-      - name: Clean
-        run: make clean
-
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+        
       - name: Quality
         env:
-          ENV_VAR_1: env_val_1
-          ENV_VAR_2: env_val_2
+          STEP_SCOPED_ENV_VAR_1: step_scoped_env_val_1
+          STEP_SCOPED_ENV_VAR_2: step_scoped_env_val_2
         run: make code-quality
 
       - name: Test
