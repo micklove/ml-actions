@@ -93,6 +93,10 @@ docker-%:  ## Run the target within make within a docker container -- e.g. `make
 bash:  ## Run a bash shell - (e.g. run with make docker-bash for an interactive shell in the container
 	/bin/bash
 
+dump: ## Dump any interesting env vars and other context
+	@echo MY_ENV=[$(MY_ENV)]
+	@echo ENV_CI=[$(ENV_CI)]
+
 # HELP
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
