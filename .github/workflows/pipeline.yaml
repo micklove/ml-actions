@@ -37,16 +37,16 @@ jobs:
       - name: Test
         run: make test
 
-     - name: Deploy API
+      - name: Deploy API
         run: make deploy-api
 
-     - name: Deploy UI
+      - name: Deploy UI
         run: make deploy-ui
 
-     - name: Test - Infra
+      - name: Test - Infra
         run: make infra-test
 
-     - name: Test - Acceptance
+      - name: Test - Acceptance
         run: make acceptance-test
 
 
