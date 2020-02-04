@@ -6,6 +6,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     env:
+      ENV_CI: true
       JOB_SCOPED_ENV_VAR_1: job_scoped_env_val_1
       JOB_SCOPED_ENV_VAR_2: job_scoped_env_val_2
     steps:
@@ -26,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-        
+
       - name: Quality
         env:
           STEP_SCOPED_ENV_VAR_1: step_scoped_env_val_1
@@ -35,5 +36,18 @@ jobs:
 
       - name: Test
         run: make test
+
+     - name: Deploy API
+        run: make deploy-api
+
+     - name: Deploy UI
+        run: make deploy-ui
+
+     - name: Test - Infra
+        run: make infra-test
+
+     - name: Test - Acceptance
+        run: make acceptance-test
+
 
 
