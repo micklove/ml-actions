@@ -73,7 +73,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-
+     
+      - name: envsubst version check
+        run: envsubst --version
+      
       - name: Deploy API
         run: make deploy-api
 
