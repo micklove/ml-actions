@@ -51,9 +51,12 @@ jobs:
 
       - name: SAM Install
         run: |
-            pip install aws-sam-cli
-            sam --version
-        
+          pip3 install wheel --upgrade
+          pip3 install setuptools --upgrade
+          pip3 install aws-sam-cli --upgrade
+          echo "::add-path::$HOME/.local/bin"
+          sam --version
+
       - uses: actions/cache@v1
         with:
           path: ~/.npm
