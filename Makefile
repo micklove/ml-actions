@@ -16,6 +16,10 @@ clean: ## Remove any redundant local files
 reinstall: clean ## Reinstall any required packages
 	@npm install
 
+
+sam-install:
+	@if ! [[ -x "`command -v sam`" ]] ; then pip install aws-sam-cli; fi
+
 prepare: ## Prepare code, config for ci step
 	@echo $@
 
