@@ -1,5 +1,7 @@
 .PHONY: clean prepare code-quality build unit-test test integration-test security-scan hawkeye-local security help
 
+SHELL=/bin/bash
+
 # Atlassian build image uses the same base image as the github actions builds, ubuntu-1604,with some extra tools
 #  https://hub.docker.com/r/atlassian/default-image/
 DOCKER_IMAGE:=atlassian/default-image:2
