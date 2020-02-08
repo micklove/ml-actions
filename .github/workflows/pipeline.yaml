@@ -50,13 +50,19 @@ jobs:
         run: make reinstall
 
       # See https://medium.com/henngeblog/github-actions-in-action-528d205da316
+#       - name: SAM Install
+#         run: |
+#           pip3 install wheel --upgrade
+#           pip3 install setuptools --upgrade
+#           pip3 install aws-sam-cli --upgrade
+#           echo "::add-path::$HOME/.local/bin"
+
       - name: SAM Install
         run: |
-          pip3 install wheel --upgrade
-          pip3 install setuptools --upgrade
-          pip3 install aws-sam-cli --upgrade
-          echo "::add-path::$HOME/.local/bin"
-          
+           echo PATH=$PATH
+           make sam-install
+
+     
       - name: SAM Details
         run: |
            echo PATH=$PATH
