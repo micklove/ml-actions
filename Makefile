@@ -20,7 +20,7 @@ reinstall: clean ## Reinstall any required packages
 
 
 sam-install:
-	@if ! [[ -x "`command -v sam`" ]] ; then pip install aws-sam-cli; fi
+	@if ! [[ -x "`command -v sam`" ]] ; then pip3 install aws-sam-cli; fi
 
 prepare: ## Prepare code, config for ci step
 	@echo $@
