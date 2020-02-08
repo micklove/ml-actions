@@ -49,6 +49,9 @@ jobs:
       - name: Install
         run: make reinstall
 
+      - name: sam details
+        run: which sam
+
       - uses: actions/cache@v1
         with:
           path: ~/.npm
@@ -65,8 +68,6 @@ jobs:
       - name: Test
         run: make test
         
-      - name: sam details
-        run: which sam
 
   cd:
     runs-on: ubuntu-latest
