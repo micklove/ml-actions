@@ -50,11 +50,9 @@ jobs:
         run: make reinstall
 
       - name: SAM Install
-        run: make sam-install
-        shell: bash
-
-      - name: sam details
-        run: sam --version
+        run: |
+            pip install aws-sam-cli
+            sam --version
         
       - uses: actions/cache@v1
         with:
