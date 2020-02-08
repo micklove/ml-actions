@@ -20,7 +20,6 @@ reinstall: clean ## Reinstall any required packages
 
 
 sam-install: ## Install sam, ignore, for local install, if already installed.
-	@if ! [[ -x "`command -v sam`" ]] ; then exit 1; fi
 	pip3 install wheel --upgrade
 	pip3 install setuptools --upgrade
 	pip3 install aws-sam-cli --upgrade
