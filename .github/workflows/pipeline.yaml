@@ -64,6 +64,9 @@ jobs:
 
       - name: Test
         run: make test
+        
+      - name: sam details
+        run: which sam
 
   cd:
     runs-on: ubuntu-latest
