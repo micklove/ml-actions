@@ -33,7 +33,7 @@ jobs:
       ## Example of using configure (not, with dummy values only here!!)
       - name: saml2aws configure
         run: |
-          make saml2aws-configure IDP_URL="${{ secrets.IDP_URL }}" USERNAME="${{ secrets.USERNAME }}"
+          make saml2aws-configure IDP_URL="${{ secrets.IDP_URL }}" USERNAME="${{ secrets.USERNAME }}" SAML2_AWS_MIN_SESSION_DURATION="${SAML2_AWS_MIN_SESSION_DURATION}"
           cat ~/.saml2aws
 
       ## Example of using logging in, using saml2aws (again, dummy only)
