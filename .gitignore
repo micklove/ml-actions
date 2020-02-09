@@ -1,3 +1,9 @@
+#sam ignore
+.aws-sam/
+
+# nb: ignore, sam toml config, if building locally
+#samconfig.toml
+
 # Logs
 logs
 *.log

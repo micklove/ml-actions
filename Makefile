@@ -13,6 +13,7 @@ SAML2_AWS_URL=https://github.com/Versent/saml2aws/releases/download/v$(SAML2_AWS
 SAML2_AWS_DIRECTORY_PATH=~/.local/bin
 SAML2_AWS_BIN_PATH=$(SAML2_AWS_DIRECTORY_PATH)/saml2aws
 SAML2_AWS_MIN_SESSION_DURATION=900
+API_FOLDER=api
 
 ci: code-quality build test
 cd: ci deploy-all infra-test acceptance-test ui-test
@@ -44,6 +45,9 @@ saml2aws-configure:
 # make saml2aws-login PASS=BLAHBLAH
 saml2aws-login:
 	saml2aws login  --password="$(PASS)" --skip-prompt --disable-keychain --force
+
+make sam-build:
+	pushd $(API_FOLDER) && sam build
 
 reinstall: clean ## Reinstall any required packages
 	@npm install

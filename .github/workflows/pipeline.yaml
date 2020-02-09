@@ -74,11 +74,13 @@ jobs:
            make sam-install
            echo "::add-path::$HOME/.local/bin"
 
-     
       - name: SAM Details
         run: |
            echo PATH=$PATH
            sam --version
+
+      - name: SAM Build
+        run: make sam-build
 
       - uses: actions/cache@v1
         with:
