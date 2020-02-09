@@ -31,6 +31,7 @@ saml2aws-install:
 
 # make saml2aws-configure IDP_URL=blah USERNAME=blah
 saml2aws-configure:
+	saml2aws --version
 	saml2aws configure \
       --url  "$(IDP_URL)" \
       --idp-provider ADFS \
