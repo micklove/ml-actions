@@ -7,6 +7,13 @@ SHELL=/bin/bash
 DOCKER_IMAGE:=atlassian/default-image:2
 DOCKER_WORKDIR:=/mypipe
 
+SAML2_AWS_CURRENT_VERSION:=2.22.0
+SAML2AWS_ZIP=saml2aws_$(SAML2_AWS_CURRENT_VERSION)_linux_amd64.tar.gz
+SAML2_AWS_URL=https://github.com/Versent/saml2aws/releases/download/v$(SAML2_AWS_CURRENT_VERSION)/$(SAML2AWS_ZIP)
+SAML2_AWS_DIRECTORY_PATH=~/.local/bin
+SAML2_AWS_BIN_PATH=$(SAML2_AWS_DIRECTORY_PATH)/saml2aws
+SAML2_AWS_MIN_SESSION_DURATION=900
+
 ci: code-quality build test
 cd: ci deploy-all infra-test acceptance-test ui-test
 
@@ -14,6 +21,28 @@ cd: ci deploy-all infra-test acceptance-test ui-test
 clean: ## Remove any redundant local files
 	@echo $@
 	-rm -rf ./node_modules
+
+saml2aws-install:
+	wget $(SAML2_AWS_URL)
+	mkdir -p $(SAML2_AWS_DIRECTORY_PATH)
+	tar -xzvf saml2aws_${SAML2_AWS_CURRENT_VERSION}_linux_amd64.tar.gz -C $(SAML2_AWS_DIRECTORY_PATH)
+	rm $(SAML2AWS_ZIP)
+	chmod u+x $(SAML2_AWS_BIN_PATH)
+
+# make saml2aws-configure IDP_URL=blah USERNAME=blah
+saml2aws-configure:
+	saml2aws configure \
+      --url  "$(IDP_URL)" \
+      --idp-provider ADFS \
+      --username "$(USERNAME)" \
+      --mfa Auto \
+      --session-duration="$(SAML2_AWS_MIN_SESSION_DURATION)" \
+      --skip-prompt
+	cat ~/.saml2aws
+
+# make saml2aws-login PASS=BLAHBLAH
+saml2aws-login:
+	saml2aws login  --password="$(PASS)" --skip-prompt --disable-keychain --force
 
 reinstall: clean ## Reinstall any required packages
 	@npm install
@@ -104,6 +133,7 @@ bash:  ## Run a bash shell - (e.g. run with make docker-bash for an interactive 
 dump: ## Dump any interesting env vars and other context
 	@echo MY_ENV=[$(MY_ENV)]
 	@echo ENV_CI=[$(ENV_CI)]
+	@echo SAML2_AWS_URL=[$(SAML2_AWS_URL)]
 
 # HELP
 # This will output the help for each task

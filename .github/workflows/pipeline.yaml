@@ -14,6 +14,7 @@ jobs:
       JOB_SCOPED_ENV_VAR_1: job_scoped_env_val_1
       JOB_SCOPED_ENV_VAR_2: job_scoped_env_val_2
       MY_ENV: DEV
+      SAML2_AWS_MIN_SESSION_DURATION: 1000
 
     steps:
       - name: Checkout
@@ -23,6 +24,21 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
+      - name: saml2aws install
+        run: make saml2aws-install
+
+      ## Example of using configure (not, with dummy values only here!!)
+      - name: saml2aws configure
+        run: |
+          make saml2aws-configure IDP_URL="${{ secrets.IDP_URL }}" USERNAME="${{ secrets.USERNAME }}"
+          cat ~/.saml2aws
+
+      ## Example of using logging in, using saml2aws (again, dummy only)
+      - name: saml2aws login
+        run: |
+          echo example command
+          echo make saml2aws-login PASS=BLAHBLAH
 
       # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions
       # nb: Be careful, context can contain github.token, (nb: it will be masked if dumped to the screen)
