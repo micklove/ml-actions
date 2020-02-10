@@ -60,6 +60,9 @@ jobs:
 
       - name: Dump env vars
         run: make dump
+      
+      - name: Docker Version
+        run: docker --version
         
       - name: envsubst version check
         run: envsubst --version
