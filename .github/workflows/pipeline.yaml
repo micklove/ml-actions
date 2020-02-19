@@ -1,15 +1,15 @@
 name: Node.js CI
 
-on: 
- push:
+on:
+  push:
 
- release:
-  types: [published]
+  release:
+    types: [published]
 
 jobs:
 
   ci:
-    # See here for details of available tools, e.g. cli 
+    # See here for details of available tools, e.g. cli
     # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners#ubuntu-1804-lts
     runs-on: ubuntu-latest
     env:
@@ -31,9 +31,9 @@ jobs:
 
       ## If this is a "release" event, we should push to a PROD env
       - name: Setup AWS Environment
-        if: startsWith(${{ github.event_name }}, 'release')
-          run: |
-            echo "::set-env name=ENVIRONMENT::PROD"
+        if: startsWith('release', github.event_name)
+        run: |
+          echo "::set-env name=ENVIRONMENT::PROD"
 
       - name: saml2aws install
         run: |
@@ -58,13 +58,13 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-         echo "$GITHUB_CONTEXT"
-         env | sort
-           
+          echo "$GITHUB_CONTEXT"
+          env | sort
+
       # Using conditions / variables
       # Set an env var https://help.github.com/en/actions/automating-your-workflow-with-github-actions/development-tools-for-github-actions#set-an-environment-variable-set-env
       # e.g. github.ref = refs/heads/master
-      # 
+      #
       - name: Set env to prod
         if: endsWith(github.ref, '/master')
         run: |
@@ -72,10 +72,10 @@ jobs:
 
       - name: Dump env vars
         run: make dump
-      
+
       - name: Docker Version
         run: docker --version
-        
+
       - name: envsubst version check
         run: envsubst --version
 
@@ -85,14 +85,14 @@ jobs:
       # # See https://medium.com/henngeblog/github-actions-in-action-528d205da316
       - name: SAM Install
         run: |
-           echo PATH=$PATH
-           make sam-install
-           echo "::add-path::$HOME/.local/bin"
+          echo PATH=$PATH
+          make sam-install
+          echo "::add-path::$HOME/.local/bin"
 
       - name: SAM Details
         run: |
-           echo PATH=$PATH
-           sam --version
+          echo PATH=$PATH
+          sam --version
 
       - name: SAM Build
         run: make sam-build
@@ -112,7 +112,6 @@ jobs:
 
       - name: Test
         run: make test
-        
 
   cd:
     runs-on: ubuntu-latest
@@ -125,7 +124,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-     
+
       - name: Deploy API
         run: make deploy-api
 
@@ -137,5 +136,3 @@ jobs:
 
       - name: Test - Acceptance
         run: make acceptance-test
-
-

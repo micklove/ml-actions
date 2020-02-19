@@ -16,6 +16,8 @@ SAML2_AWS_BIN_PATH=$(SAML2_AWS_DIRECTORY_PATH)/saml2aws
 SAML2_AWS_MIN_SESSION_DURATION=900
 API_FOLDER=api
 
+include ./lib/dev-tools.mk
+
 ci: code-quality build test
 cd: ci deploy-all infra-test acceptance-test ui-test
 
@@ -26,7 +28,10 @@ $$(TARGETS):
 
 .PHONY: $$(TARGETS)
 endef
+
 $(eval $(call npm_script_targets))
+
+
 
 clean: ## Remove any redundant local files
 	@echo $@
@@ -143,16 +148,5 @@ docker-%:  ## Run the target within make within a docker container -- e.g. `make
 
 bash:  ## Run a bash shell - (e.g. run with make docker-bash for an interactive shell in the container
 	/bin/bash
-
-dump: ## Dump any interesting env vars and other context
-	@echo MY_ENV=[$(MY_ENV)]
-	@echo ENV_CI=[$(ENV_CI)]
-	@echo SAML2_AWS_URL=[$(SAML2_AWS_URL)]
-
-# HELP
-# This will output the help for each task
-# thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-help: ## This help.
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 
