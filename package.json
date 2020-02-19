@@ -4,7 +4,9 @@
   "description": "ML Github Actions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:stuff": "echo \"Error: no test specified\" && exit 1",
+    "test2": "echo \"Error: no test specified\" && exit 2"
   },
   "repository": {
     "type": "git",

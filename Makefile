@@ -1,4 +1,5 @@
 .PHONY: clean prepare code-quality build unit-test test integration-test security-scan hawkeye-local security help
+.DEFAULT_GOAL: help
 
 SHELL=/bin/bash
 
@@ -18,6 +19,14 @@ API_FOLDER=api
 ci: code-quality build test
 cd: ci deploy-all infra-test acceptance-test ui-test
 
+TARGETS:=$(shell jq -r ".scripts | keys | .[]"  package.json | sed 's/:/-/g')
+define npm_script_targets
+$$(TARGETS):
+	npm run $(subst -,:,$(MAKECMDGOALS))
+
+.PHONY: $$(TARGETS)
+endef
+$(eval $(call npm_script_targets))
 
 clean: ## Remove any redundant local files
 	@echo $@
@@ -145,6 +154,5 @@ dump: ## Dump any interesting env vars and other context
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help: ## This help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
 
 

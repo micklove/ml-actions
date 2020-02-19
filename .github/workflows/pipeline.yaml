@@ -2,10 +2,12 @@ name: Node.js CI
 
 on: 
  push:
+
  release:
   types: [published]
 
 jobs:
+
   ci:
     # See here for details of available tools, e.g. cli 
     # https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners#ubuntu-1804-lts
@@ -16,6 +18,7 @@ jobs:
       JOB_SCOPED_ENV_VAR_2: job_scoped_env_val_2
       MY_ENV: DEV
       SAML2_AWS_MIN_SESSION_DURATION: 1000
+      ENVIRONMENT: DEV
 
     steps:
       - name: Checkout
@@ -25,6 +28,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
+      ## If this is a "release" event, we should push to a PROD env
+      - name: Setup AWS Environment
+        if: startsWith(${{ github.event_name }}, 'release')
+          run: |
+            echo "::set-env name=ENVIRONMENT::PROD"
 
       - name: saml2aws install
         run: |
