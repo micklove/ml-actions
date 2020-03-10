@@ -18,7 +18,7 @@ jobs:
       JOB_SCOPED_ENV_VAR_2: job_scoped_env_val_2
       MY_ENV: DEV
       SAML2_AWS_MIN_SESSION_DURATION: 1000
-      ENVIRONMENT: DEV
+      ENV_CONTEXT: .env.dev
 
     steps:
       - name: Checkout
@@ -45,7 +45,7 @@ jobs:
           echo ${{ github.event.release.body }}
           export ENV_TARGET=$(echo "${{ github.event.release.body }}" | awk 'BEGIN {FS="="} {split($2,a," "); print a[1]}')
           echo "ENV_TARGET=${ENV_TARGET}"
-          echo "::set-env name=ENVIRONMENT::${ENV_TARGET}"
+          echo "::set-env name=ENV_CONTEXT::.env.${ENV_TARGET}"
 
       - name: Create manifest file for build
         run: |
