@@ -151,4 +151,14 @@ docker-%:  ## Run the target within make within a docker container -- e.g. `make
 bash:  ## Run a bash shell - (e.g. run with make docker-bash for an interactive shell in the container
 	/bin/bash
 
+TARGET_ENV ?= "UAT"
+RELEASE_TITLE ?= "Latest release to $(TARGET_ENV)"
+RELEASE_DESC ?= "Add new feature"
 
+create-release: ## Create a github release e.g. make create-release RELEASE_TAG_NAME=v1.7.8 GITHUB_TOKEN=abcdef
+	./scripts/create_release.sh \
+		$(TARGET_ENV) \
+		$(RELEASE_TAG_NAME) \
+		$(RELEASE_TITLE) \
+		$(RELEASE_DESC) \
+		$(GITHUB_TOKEN)
