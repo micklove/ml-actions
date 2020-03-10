@@ -47,6 +47,13 @@ jobs:
           echo "ENV_TARGET=${ENV_TARGET}"
           echo "::set-env name=ENV_CONTEXT::.env.${ENV_TARGET}"
 
+      # curl -X POST "https://api.github.com/repos/micklove/ml-actions/runs/${{ github.run_id }}
+      - name: Cancel push run for a tag event
+        if: github.event_name == 'push' && startsWith('refs/tags', github.ref)
+        run: |
+          echo Cancelling myself...
+          curl -X POST "https://api.github.com/repos/micklove/ml-actions/runs/${{ github.run_id }} -H "Content-Type: application/json" -H "Authorization: token ${{ github.token }}"
+
       - name: Create manifest file for build
         run: |
           make artifacts/manifest/manifest.txt
