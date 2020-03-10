@@ -39,9 +39,10 @@ jobs:
           env | sort
 
       ## If this is a "release" event, we should push to a PROD env
-      - name: Setup AWS Environment
+      - name: Setup Target Environment
         if: startsWith('release', github.event_name)
         run: |
+          echo {{ event.release.body }}
           echo "::set-env name=ENVIRONMENT::PROD"
 
       - name: Create manifest file for build
