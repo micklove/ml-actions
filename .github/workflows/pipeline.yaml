@@ -35,6 +35,17 @@ jobs:
         run: |
           echo "::set-env name=ENVIRONMENT::PROD"
 
+      - name: Create manifest file for build
+        run: |
+          make artifacts/manifest/manifest.txt
+
+      - name: Upload manifest file to artifacts
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: manifest.txt
+          path: artifacts/manifest
+
       - name: saml2aws install
         run: |
           make saml2aws-install

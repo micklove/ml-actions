@@ -16,6 +16,9 @@ SAML2_AWS_BIN_PATH=$(SAML2_AWS_DIRECTORY_PATH)/saml2aws
 SAML2_AWS_MIN_SESSION_DURATION=900
 API_FOLDER=api
 
+
+BUILD_MANIFEST_VARS:=ENV_CI ENVIRONMENT SAML2_AWS_CURRENT_VERSION DOCKER_IMAGE
+
 include ./lib/dev-tools.mk
 
 ci: code-quality build test
@@ -30,7 +33,6 @@ $$(TARGETS):
 endef
 
 $(eval $(call npm_script_targets))
-
 
 
 clean: ## Remove any redundant local files

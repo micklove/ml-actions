@@ -1,3 +1,5 @@
+artifacts
+
 #sam ignore
 .aws-sam/
 
@@ -112,5 +114,6 @@ dist
 # IDE / Tools
 .idea
 *.iml
+
 
 
