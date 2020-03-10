@@ -39,7 +39,7 @@ jobs:
           env | sort
 
       ## If this is a "release" event, we should push to a PROD env
-      - name: Setup Target Environment
+      - name: Setup Target Env
         if: startsWith('release', github.event_name)
         run: |
           echo ${{ github.event.release.body }}
