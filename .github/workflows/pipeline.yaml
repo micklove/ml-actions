@@ -42,7 +42,7 @@ jobs:
       - name: Setup Target Environment
         if: startsWith('release', github.event_name)
         run: |
-          echo ${{ event.release.body }}
+          echo ${{ github.event.release.body }}
           export ENV_TARGET=$(echo "${{ event.release.body }}" | awk 'BEGIN {FS="="} {split($2,a," "); print a[1]}')
           echo "ENV_TARGET=${ENV_TARGET}"
           echo "::set-env name=ENVIRONMENT::${ENV_TARGET}"
