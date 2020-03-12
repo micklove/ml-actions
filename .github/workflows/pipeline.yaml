@@ -1,3 +1,5 @@
+---
+
 name: Node.js CI
 
 on:
@@ -66,10 +68,10 @@ jobs:
       # The 2nd build will be a "push" event, with a tag, since the "release" event will already be
       # building (and deploying) we will cancel the "push" event.
       - name: Cancel Redundant Build?
-          if: github.event_name == 'push'
-          run: |
-            # Cancel the build, if it's a push AND a tag
-            grep -q "refs/tags" <<< $GIT_REF && exit 1
+        if: github.event_name == 'push'
+        run: |
+          # Cancel the build, if it's a push AND a tag
+          grep -q "refs/tags" <<< $GIT_REF && exit 1
 
       ## If this is a "release" event, we should push to a PROD env
       - name: Set Target Env
