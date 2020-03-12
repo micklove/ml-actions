@@ -54,7 +54,7 @@ jobs:
           export GIT_COMMIT="${{ github.sha }}"
 
           # The "commitish" property is only available on releases
-          [[ "release" == "${EVENT_NAME}" ]] && TARGET_COMMITISH="${{ github.event.target_commitish }}"
+          [[ "release" == "${EVENT_NAME}" ]] && TARGET_COMMITISH="${{ github.event.release.target_commitish }}"
 
           echo "TARGET_COMMITISH:[${TARGET_COMMITISH}]"
           echo "GIT_REF:[${GIT_REF}]"
