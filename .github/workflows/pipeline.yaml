@@ -35,7 +35,8 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          echo "GITHUB_CONTEXT=[$GITHUB_CONTEXT]" | jq
+          echo "GITHUB_CONTEXT=[$GITHUB_CONTEXT]"
+          echo "GITHUB_CONTEXT | jq
           env | sort
 
       ## If this is a "release" event, we should push to a PROD env
