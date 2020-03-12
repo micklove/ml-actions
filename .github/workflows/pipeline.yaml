@@ -60,7 +60,7 @@ jobs:
           echo "GIT_REF:[${GIT_REF}]"
           echo "GIT_COMMIT:[${GIT_COMMIT}]"
 
-          export GIT_BRANCH=$(make set-git-branch GIT_REF="$(GIT_REF)" GIT_COMMIT="${GIT_COMMIT}" GIT_COMMITISH="${TARGET_COMMITISH}"
+          export GIT_BRANCH=$(make set-git-branch GIT_REF="$(GIT_REF)" GIT_COMMIT="${GIT_COMMIT}" GIT_COMMITISH="${TARGET_COMMITISH}")
           echo "GIT_BRANCH:[${GIT_BRANCH}]"
           echo "::set-env name=GIT_BRANCH::.env.${GIT_BRANCH}"
 
