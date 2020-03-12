@@ -62,7 +62,7 @@ jobs:
 
           export GIT_BRANCH=$(make set-git-branch GIT_REF="${GIT_REF}" GIT_COMMIT="${GIT_COMMIT}" GIT_COMMITISH="${TARGET_COMMITISH}")
           echo "GIT_BRANCH:[${GIT_BRANCH}]"
-          echo "::set-env name=GIT_BRANCH::.env.${GIT_BRANCH}"
+          echo "::set-env name=GIT_BRANCH::${GIT_BRANCH}"
 
       # When using the "releases" feature, the build will be triggered twice:
       # The 2nd build will be a "push" event, with a tag, since the "release" event will already be
