@@ -3,6 +3,10 @@
 
 SHELL=/bin/bash
 
+include ./lib/common-facts.mk
+include ./lib/help.mk
+include ./lib/debug-tools.mk
+
 # Atlassian build image uses the same base image as the github actions builds, ubuntu-1604,with some extra tools
 #  https://hub.docker.com/r/atlassian/default-image/
 DOCKER_IMAGE:=atlassian/default-image:2
@@ -16,7 +20,7 @@ SAML2_AWS_BIN_PATH=$(SAML2_AWS_DIRECTORY_PATH)/saml2aws
 SAML2_AWS_MIN_SESSION_DURATION=900
 API_FOLDER=api
 
-BUILD_MANIFEST_VARS:=ENV_CI ENV_CONTEXT SAML2_AWS_CURRENT_VERSION DOCKER_IMAGE
+BUILD_MANIFEST_VARS:=CURRENT_USER GIT_ORIGIN_URL GIT_BRANCH GIT_COMMIT GIT_COMMIT_LINK GIT_COMMITER GIT_OWNER GIT_REPO ENV_CI ENV_CONTEXT SAML2_AWS_CURRENT_VERSION DOCKER_IMAGE
 
 include ./lib/dev-tools.mk
 
@@ -161,3 +165,25 @@ create-release: ## Create a github release e.g. make create-release RELEASE_TAG_
 		$(RELEASE_TITLE) \
 		$(RELEASE_DESC) \
 		$(GITHUB_TOKEN)
+
+tests: ## Run BATS tests (cd to the folder and run them from there)
+	$(call print_header, 50,'BATS Tests',$(DEFAULT_HEADER_CHAR),33)
+	@for i in `find . -name "*.bats" -not -path "*/node_modules/*"`; \
+	  do printf "\nTesting: $$i\n\n"; \
+	    pushd `echo $$i | xargs dirname` >/dev/null && bats $$i;\
+	  done
+testr:
+	@echo blah || echo foo
+
+# https://stackoverflow.com/a/48496716/178808 vs watch -n 5 make tests
+watch: scripts/get_git_branch.sh scripts/get_git_branch.test.bats
+	while true; do make tests -q || clear; make tests; sleep 5; done
+
+set-git-branch: ## Set the git branch (used for AWS stacks), if we are building from a tag (e.g. Github "Release")
+#	@echo GIT_REF: $(GIT_REF)
+#	@echo GIT_COMMIT: $(GIT_COMMIT)
+#	@echo GIT_COMMITISH: $(GIT_COMMITISH)
+	@$(PROJECT_ROOT)/scripts/get_git_branch.sh "$(GIT_REF)" "$(GIT_COMMIT)" "$(GIT_COMMITISH)"
+
+#watch:
+#    @while true; do $(MAKE) tests -q || $(MAKE) tests; sleep 0.5; done
