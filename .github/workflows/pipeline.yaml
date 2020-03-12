@@ -72,7 +72,8 @@ jobs:
         run: |
           # Cancel the build, if it's a push AND a tag
           export GIT_REF="${{ github.ref }}"
-          grep -q "refs/tags" <<< $GIT_REF && exit 1
+          echo "GIT_REF:[${GIT_REF}]"
+          grep -q "refs/tags" <<< $GIT_REF && echo "Match, cancel"
 
       ## If this is a "release" event, we should push to a PROD env
       - name: Set Target Env
