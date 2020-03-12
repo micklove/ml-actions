@@ -36,14 +36,45 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "GITHUB_CONTEXT=[$GITHUB_CONTEXT]"
-          echo "${GITHUB_CONTEXT}" | jq
           env | sort
 
+      # When using the "releases" feature, the build will be triggered twice:
+      #   - With a push event, with the ref set to a tag, e.g. v1.9.1
+      #   - with a release event, also with the ref set to a tag
+      # This action will retrieve the ACTUAL branch name to be used for the build.
+      # nb: During the release event, the ACTUAL branch name is stored in github.event.target_commitish
+      - name: Set Branch Name
+        run: |
+          export EVENT_NAME="${{  github.event_name }}"
+          #echo ${{ github.event.release.body }}
+          export TARGET_COMMITISH=""
+          export GIT_REF="${{ github.ref }}"
+          export GIT_COMMIT="${{ github.sha }}"
+
+          # The "commitish" property is only available on releases
+          [[ "release" == "${EVENT_NAME}" ]] && TARGET_COMMITISH="${{ github.event.target_commitish }}"
+
+          echo "TARGET_COMMITISH:[${TARGET_COMMITISH}]"
+          echo "GIT_REF:[${GIT_REF}]"
+          echo "GIT_COMMIT:[${GIT_COMMIT}]"
+
+          export GIT_BRANCH=$(make set-git-branch GIT_REF="$(GIT_REF)" GIT_COMMIT="${GIT_COMMIT}" GIT_COMMITISH="${TARGET_COMMITISH}"
+          echo "GIT_BRANCH:[${GIT_BRANCH}]"
+          echo "::set-env name=GIT_BRANCH::.env.${GIT_BRANCH}"
+
+      # When using the "releases" feature, the build will be triggered twice:
+      # The 2nd build will be a "push" event, with a tag, since the "release" event will already be
+      # building (and deploying) we will cancel the "push" event.
+      - name: Cancel Redundant Build?
+          if: github.event_name == 'push'
+          run: |
+            # Cancel the build, if it's a push AND a tag
+            grep -q "refs/tags" <<< $GIT_REF && exit 1
+
       ## If this is a "release" event, we should push to a PROD env
-      - name: Setup Target Env
+      - name: Set Target Env
         if: startsWith('release', github.event_name)
         run: |
-          echo ${{ github.event.release.body }}
           export ENV_TARGET=$(echo "${{ github.event.release.body }}" | awk 'BEGIN {FS="="} {split($2,a," "); print a[1]}')
           echo "ENV_TARGET=${ENV_TARGET}"
           echo "::set-env name=ENV_CONTEXT::.env.${ENV_TARGET}"
@@ -58,6 +89,10 @@ jobs:
       - name: Create manifest file for build
         run: |
           make artifacts/manifest/manifest.txt
+
+      - name: bats unit tests TODO
+        run: |
+          echo "TODO - install bats and run tests with make tests"
 
       - name: Upload manifest file to artifacts
         if: always()
