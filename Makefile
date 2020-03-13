@@ -7,6 +7,7 @@ include ./lib/common-facts.mk
 include ./lib/help.mk
 include ./lib/debug-tools.mk
 
+
 # Atlassian build image uses the same base image as the github actions builds, ubuntu-1604,with some extra tools
 #  https://hub.docker.com/r/atlassian/default-image/
 DOCKER_IMAGE:=atlassian/default-image:2

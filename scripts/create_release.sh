@@ -25,8 +25,9 @@ then
   printf "Env must be either uat or prod\n" && exit 1
 fi
 
-export TARGET_BRANCH=master
+#export TARGET_BRANCH=master
 export GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD | sed "s*/*-*g")
+export TARGET_BRANCH="${GIT_BRANCH}"
 export GIT_COMMIT=$(git rev-parse --short --verify HEAD)
 export GIT_COMMITER=$(git show -s --format='%ae' "${GIT_COMMIT}")
 export GIT_OWNER=$(git remote get-url origin | sed 's#.*github.com/##' | xargs dirname)
