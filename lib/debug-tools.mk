@@ -46,6 +46,7 @@ dump-debug: ## Dump all vars, for debugging. Similar to printvars, but easier to
 	@$(shell $(MAKE) get-debug-vars > vars.txt)
 	@awk 'BEGIN{FS="[=!]"} {printf " \033[33m%-36s\033[0m = \033[32m%-65s\033[0m \033[35m%s\033[0m\n", $$1, $$2, $$3}' vars.txt
 	@-rm vars.txt
+	@echo GIT_BRANCH=$(GIT_BRANCH)
 
 # See https://www.cmcrossroads.com/article/dumping-every-makefile-variable
 .PHONY: printvars
