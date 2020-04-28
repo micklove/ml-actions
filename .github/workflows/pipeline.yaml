@@ -2,12 +2,15 @@
 
 name: Node.js CI
 
+# Only work on pushed branches, not tags for now. (to prevent duplicate "push" and "release" run, when releases occur)
 on:
   push:
-
+    branches:
+      - "**"
   release:
-    types: [published]
-
+    types:
+      - published
+        
 jobs:
 
   ci:
