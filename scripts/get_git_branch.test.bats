@@ -3,11 +3,6 @@
 export GIT_REF="refs/tags/v1.2.0"
 export COMMIT_FROM_MASTER="88bffa7bbad935a0a1738162d9de9e528680080d"
 
-@test "addition using bcx" {
-  result="$(echo 2+2 | bc)"
-  [[ "${result}" -eq 4 ]]
-}
-
 @test "it should error when git refs is not provided" {
   run get_git_branch.sh
   [[ "${status}" -eq 1 ]]
