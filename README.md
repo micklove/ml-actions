@@ -1,3 +1,6 @@
+
+![](https://github.com/micklove/ml-actions/workflows/.github/workflows/pipeline.yaml/badge.svg)
+
 # Github Actions example pipeline
 Project repository - TODO
 
