@@ -13,7 +13,7 @@ include ./lib/debug-tools.mk
 DOCKER_IMAGE:=atlassian/default-image:2
 DOCKER_WORKDIR:=/mypipe
 
-SAML2_AWS_CURRENT_VERSION:=2.22.0
+SAML2_AWS_CURRENT_VERSION:=2.26.1
 SAML2AWS_ZIP=saml2aws_$(SAML2_AWS_CURRENT_VERSION)_linux_amd64.tar.gz
 SAML2_AWS_URL=https://github.com/Versent/saml2aws/releases/download/v$(SAML2_AWS_CURRENT_VERSION)/$(SAML2AWS_ZIP)
 SAML2_AWS_DIRECTORY_PATH=~/.local/bin
