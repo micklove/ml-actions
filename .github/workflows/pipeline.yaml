@@ -113,7 +113,7 @@ jobs:
       - name: saml2aws install
         run: |
           make saml2aws-install
-          echo "::add-path::$HOME/.local/bin"
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
       ## Example of using configure (not, with dummy values only here!!)
       - name: saml2aws configure
