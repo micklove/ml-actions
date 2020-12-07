@@ -2,15 +2,16 @@
 
 name: ml-actions
 
-# Only work on pushed branches, not tags for now. (to prevent duplicate "push" and "release" run, when releases occur)
 on:
   push:
     branches:
       - "**"
+    tags:
+      - "v**-prodtest"
   release:
     types:
       - published
-        
+
 jobs:
 
   ci:
@@ -65,7 +66,7 @@ jobs:
 
           export GIT_BRANCH=$(make set-git-branch GIT_REF="${GIT_REF}" GIT_COMMIT="${GIT_COMMIT}" GIT_COMMITISH="${TARGET_COMMITISH}")
           echo "GIT_BRANCH:[${GIT_BRANCH}]"
-          echo "::set-env name=GIT_BRANCH::${GIT_BRANCH}"
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
 
       # When using the "releases" feature, the build will be triggered twice:
       # The 2nd build will be a "push" event, with a tag, since the "release" event will already be
